@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import HelloWorld from "./pages/HelloWorld";
+import Home from "./pages/Home";
 
 const App: React.FunctionComponent<{
   compiler: string;
@@ -8,7 +8,7 @@ const App: React.FunctionComponent<{
 }> = () => {
   return (
     <div>
-      <HelloWorld />
+      <Home />
     </div>
   );
 };
