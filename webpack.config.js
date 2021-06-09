@@ -14,6 +14,8 @@ module.exports = {
     modules: [path.join(__dirname, "src"), "node_modules"],
     alias: {
       react: path.join(__dirname, "node_modules", "react"),
+      "@/pages": path.resolve(__dirname, "frontend/pages"),
+      "@/services": path.resolve(__dirname, "service"),
     },
     extensions: [".ts", ".tsx", ".js"],
   },
