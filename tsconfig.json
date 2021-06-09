@@ -7,7 +7,12 @@
     "experimentalDecorators": true,
     "target": "es5",
     "jsx": "react",
-    "lib": ["dom", "es6"]
+    "lib": ["dom", "es6"],
+    "baseUrl": "./",
+    "paths": {
+      "@/pages/*": ["frontend/pages/*"],
+      "@/services/*": ["service/*"]
+    }
   },
   "include": ["frontend"],
   "compileOnSave": false
