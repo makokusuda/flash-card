@@ -1,3 +1,4 @@
+export {};
 const db = require("./db");
 
 db.run(`CREATE TABLE IF NOT EXISTS cards (
