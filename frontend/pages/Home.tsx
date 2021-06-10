@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Service from "@/services/service";
 
 const Home = () => {
@@ -7,7 +6,7 @@ const Home = () => {
 
   useEffect(() => {
     const getCards = async () => {
-      const cards = await Service.getCards();
+      const cards = await Service.getCards(1, 10);
       setCards(cards.data);
     };
     getCards();
