@@ -27,7 +27,6 @@ const fsWriteFile = (image_extension, image, fileName) => {
 };
 
 app.get("/api/cards", (req, res) => {
-  console.log(req.params, req.query);
   const { limit, page } = req.query;
   const offset = limit * (page - 1);
   const sql =

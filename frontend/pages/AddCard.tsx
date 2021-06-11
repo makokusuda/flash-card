@@ -9,18 +9,18 @@ const AddCard = () => {
   const postCard = async () => {
     const fileInfo = fileInput.current.files[0];
     if (fileInfo) {
-      const fileExtension = fileInfo.type.split("/")[1];
+      const image_extension = fileInfo.type.split("/")[1];
       const reader = new FileReader();
       reader.readAsDataURL(fileInfo);
       reader.onload = async () => {
         const image = String(reader.result).split(",")[1];
-        await Service.postCard(
+        await Service.postCard({
           front,
           back,
           image,
-          fileExtension,
-          fileInfo.name
-        );
+          image_extension,
+          file_name: fileInfo.name,
+        });
       };
     }
   };
