@@ -7,7 +7,7 @@ db.run(`CREATE TABLE IF NOT EXISTS cards (
   back TEXT NOTE NULL,
   image VARCHAR,
   file_name VARCHAR,
-  created_datetime TIMESTAMP DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))
+  created_at TIMESTAMP DEFAULT (datetime(CURRENT_TIMESTAMP,'localtime'))
   )`);
 
 db.close();

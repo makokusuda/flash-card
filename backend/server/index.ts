@@ -27,8 +27,11 @@ const fsWriteFile = (image_extension, image, fileName) => {
 };
 
 app.get("/api/cards", (req, res) => {
-  const sql = "SELECT * FROM cards";
-  const params = [];
+  const { limit, page } = req.query;
+  const offset = limit * (page - 1);
+  const sql =
+    "SELECT *, (SELECT count (*) FROM cards) AS count FROM cards ORDER BY created_at DESC LIMIT ? OFFSET ?";
+  const params = [limit, offset];
   db.all(sql, params, (err, rows) => {
     if (err) {
       return res.status(404).json({ err });
