@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Service from "@/services/service";
-import PageButton from "@/pages/PageButton";
+import PageButton from "@/pages/cardList/PageButton";
 
 interface CardInfo {
   id: number;

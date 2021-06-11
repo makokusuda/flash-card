@@ -1,9 +1,9 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import "./style.css";
-import Home from "@/pages/Home";
+import Home from "@/pages/common/Home";
 import AddCard from "@/pages/AddCard";
-import Menu from "@/pages/Menu";
+import Menu from "@/pages/common/Menu";
 
 const App: React.FunctionComponent<{
   compiler: string;
