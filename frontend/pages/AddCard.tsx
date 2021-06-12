@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+
 import Service from "@/services/service";
 
 const AddCard = () => {
@@ -22,6 +23,11 @@ const AddCard = () => {
           file_name: fileInfo.name,
         });
       };
+    } else {
+      await Service.postCard({
+        front,
+        back,
+      });
     }
   };
 

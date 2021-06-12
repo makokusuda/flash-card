@@ -12,7 +12,8 @@
     "baseUrl": "./",
     "paths": {
       "@/pages/*": ["frontend/pages/*"],
-      "@/services/*": ["service/*"]
+      "@/services/*": ["service/*"],
+      "@/utils/*": ["frontend/utils/*"]
     }
   },
   "include": ["frontend", "backend"],
