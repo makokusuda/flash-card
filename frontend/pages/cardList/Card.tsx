@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import { CardInfo } from "@/utils/interface";
 import Modal from "@/pages/common/Modal";
@@ -26,15 +27,22 @@ const Card = (props: { card: CardInfo; setUpdated: any; updated: boolean }) => {
   }, [modal]);
 
   return (
-    <>
-      <div>{card.id}</div>
-      <div>{card.front}</div>
-      <div>{card.back}</div>
-      {card.image && <img src={`http://localhost:3000/${card.image}`} />}
-      <div onClick={() => setModal(true)}>Delete</div>
-      <Link to={`/edit-card/${card.id}`}>
-        <div>Edit</div>
-      </Link>
+    <CardContainer>
+      {card.image ? (
+        <Image src={`http://localhost:3000/${card.image}`} />
+      ) : (
+        <DummyImage></DummyImage>
+      )}
+      <div>
+        <div>{card.front}</div>
+        <div>{card.back}</div>
+      </div>
+      <ButtonArea>
+        <div onClick={() => setModal(true)}>Delete</div>
+        <Link to={`/edit-card/${card.id}`}>
+          <div>Edit</div>
+        </Link>
+      </ButtonArea>
       <Modal
         id={card.id}
         modal={modal}
@@ -42,8 +50,38 @@ const Card = (props: { card: CardInfo; setUpdated: any; updated: boolean }) => {
         setUpdated={setUpdated}
         updated={updated}
       />
-    </>
+    </CardContainer>
   );
 };
 
 export default Card;
+
+const CardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 400px;
+  height: 200px;
+  border: 1px solid #ddd;
+  margin: 10px;
+  position: relative;
+`;
+
+const Image = styled.img`
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  margin: 0 20px;
+`;
+
+const DummyImage = styled.div`
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  margin: 0 20px;
+`;
+
+const ButtonArea = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;

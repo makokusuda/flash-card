@@ -1,17 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Menu = () => {
   return (
-    <div>
+    <MenuContainer>
       <Link to="/">
-        <div>Home</div>
+        <Content>Home</Content>
       </Link>
       <Link to="/add-card">
-        <div>Add a card</div>
+        <Content>Add a card</Content>
       </Link>
-    </div>
+    </MenuContainer>
   );
 };
 
 export default Menu;
+
+const MenuContainer = styled.div`
+  display: flex;
+  height: 30px;
+`;
+
+const Content = styled.div`
+  margin: 0 20px;
+`;
