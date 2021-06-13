@@ -41,11 +41,24 @@ app.get("/api/cards", (req, res) => {
   });
 });
 
+app.get("/api/cards/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM cards WHERE id=?";
+  const params = [id];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      return res.status(404).json({ err });
+    } else {
+      return res.status(200).json(rows);
+    }
+  });
+});
+
 app.post("/api/cards", (req, res) => {
   const { front, back, image, image_extension, file_name } = req.body;
   let params;
   if (req.body.image) {
-    const fileName = `${file_name}.${new Date().getTime()}`;
+    const fileName = `image-${new Date().getTime()}`;
     fsWriteFile(image_extension, image, fileName);
     params = [front, back, `${fileName}.${image_extension}`, file_name];
   } else {
@@ -67,7 +80,7 @@ app.put("/api/cards/:id", (req, res) => {
   const id = req.params.id;
   let params;
   if (req.body.image) {
-    const fileName = `${file_name}.${new Date().getTime()}`;
+    const fileName = `image-${new Date().getTime()}`;
     fsWriteFile(image_extension, image, fileName);
     params = [front, back, `${fileName}.${image_extension}`, file_name, id];
   } else {

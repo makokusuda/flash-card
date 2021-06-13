@@ -1,28 +1,16 @@
-import React, { useState, useRef } from "react";
-import Service from "@/services/service";
+import React, { useState } from "react";
+
+import uploadCard from "@/utils/uploadCard";
+import UploadImage from "@/pages/common/UploadImage";
 
 const AddCard = () => {
-  const [front, setFront] = useState("");
   const [back, setBack] = useState("");
-  const fileInput = useRef(null);
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
+  const [front, setFront] = useState("");
 
   const postCard = async () => {
-    const fileInfo = fileInput.current.files[0];
-    if (fileInfo) {
-      const image_extension = fileInfo.type.split("/")[1];
-      const reader = new FileReader();
-      reader.readAsDataURL(fileInfo);
-      reader.onload = async () => {
-        const image = String(reader.result).split(",")[1];
-        await Service.postCard({
-          front,
-          back,
-          image,
-          image_extension,
-          file_name: fileInfo.name,
-        });
-      };
-    }
+    await uploadCard(file, front, back, undefined, "post");
   };
 
   return (
@@ -39,8 +27,12 @@ const AddCard = () => {
             setBack(e.target.value);
           }}
         />
-        <input ref={fileInput} type="file" />
-        <button onClick={postCard}>Submit</button>
+        <UploadImage
+          fileName={fileName}
+          setFile={setFile}
+          setFileName={setFileName}
+          submitCard={postCard}
+        />
       </div>
     </div>
   );
