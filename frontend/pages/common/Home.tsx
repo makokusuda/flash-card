@@ -27,12 +27,12 @@ const Home = () => {
   useEffect(() => {
     const getCards = async () => {
       const cards = await Service.getCards(currentPage, cardLimit);
-      const totalCard = cards.data[0].count;
+      const totalCard = cards[0].count;
       const pageNum = Math.ceil(totalCard / cardLimit);
 
       setTotalPage(pageNum);
       setPageList(arrayChunk(pageNum, pageLimit));
-      setCards(cards.data);
+      setCards(cards);
     };
     getCards();
   }, [currentPage]);

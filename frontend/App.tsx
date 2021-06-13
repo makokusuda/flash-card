@@ -1,8 +1,10 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import "./style.css";
-import Home from "@/pages/common/Home";
+
 import AddCard from "@/pages/AddCard";
+import EditCard from "@/pages/EditCard";
+import Home from "@/pages/common/Home";
 import Menu from "@/pages/common/Menu";
 
 const App: React.FunctionComponent<{
@@ -16,6 +18,7 @@ const App: React.FunctionComponent<{
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/add-card" component={AddCard} />
+          <Route path="/edit-card/:id" component={EditCard} />
         </Switch>
       </Router>
     </>
