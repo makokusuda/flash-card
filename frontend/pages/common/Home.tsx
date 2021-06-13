@@ -18,10 +18,12 @@ const Home = () => {
   const [cards, setCards] = useState<CardInfo[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSet, setCurrentPageSet] = useState(0);
+  const [fetching, setFetching] = useState(true);
   const [pageList, setPageList] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
+  const [updated, setUpdated] = useState(false);
 
-  const cardLimit = 2;
+  const cardLimit = 5;
   const pageLimit = 3;
 
   useEffect(() => {
@@ -30,19 +32,22 @@ const Home = () => {
       const totalCard = cards[0].count;
       const pageNum = Math.ceil(totalCard / cardLimit);
 
-      setTotalPage(pageNum);
-      setPageList(arrayChunk(pageNum, pageLimit));
       setCards(cards);
+      setFetching(false);
+      setPageList(arrayChunk(pageNum, pageLimit));
+      setTotalPage(pageNum);
     };
     getCards();
-  }, [currentPage]);
+    window.scrollTo(0, 0);
+  }, [currentPage, updated]);
 
   return (
-    <>
+    <div>
+      {fetching && <div>Loading...</div>}
       {cards.map((card, index) => {
         return (
           <div key={index}>
-            <Card card={card} />
+            <Card card={card} setUpdated={setUpdated} updated={updated} />
           </div>
         );
       })}
@@ -54,7 +59,7 @@ const Home = () => {
         setCurrentPage={setCurrentPage}
         setCurrentPageSet={setCurrentPageSet}
       />
-    </>
+    </div>
   );
 };
 

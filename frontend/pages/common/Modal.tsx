@@ -3,12 +3,19 @@ import styled from "styled-components";
 
 import Service from "@/services/service";
 
-const Modal = (props: { id: number; modal: boolean; setModal: any }) => {
-  const { id, modal, setModal } = props;
+const Modal = (props: {
+  id: number;
+  modal: boolean;
+  setModal: any;
+  setUpdated: any;
+  updated: boolean;
+}) => {
+  const { id, modal, setModal, setUpdated, updated } = props;
 
   const deleteStory = (id: number) => {
     Service.deleteCard(id);
     setModal(false);
+    setUpdated(!updated);
   };
 
   return (
