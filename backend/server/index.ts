@@ -76,18 +76,27 @@ app.post("/api/cards", (req, res) => {
 });
 
 app.put("/api/cards/:id", (req, res) => {
-  const { front, back, image, image_extension, file_name } = req.body;
+  const { back, changeFile, file_name, front, image, image_extension } =
+    req.body;
   const id = req.params.id;
   let params;
-  if (req.body.image) {
+  let sql;
+  if (image) {
+    // when file is uploaded
     const fileName = `image-${new Date().getTime()}`;
     fsWriteFile(image_extension, image, fileName);
     params = [front, back, `${fileName}.${image_extension}`, file_name, id];
+    sql = "UPDATE cards SET front=?, back=?, image=?, file_name=? WHERE id=?";
+  } else if (changeFile) {
+    // when file is deleted
+    params = [front, back, "", "", id];
+    sql = "UPDATE cards SET front=?, back=?, image=?, file_name=? WHERE id=?";
   } else {
-    params = [front, back, null, null, id];
+    // when only text is updated
+    params = [front, back, id];
+    sql = "UPDATE cards SET front=?, back=? WHERE id=?";
   }
-  const sql =
-    "UPDATE cards SET front=?, back=?, image=?, file_name=? WHERE id=?";
+
   db.run(sql, params, (err, rows) => {
     if (err) {
       return res.status(404).json({ err });

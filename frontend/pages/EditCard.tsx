@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 import Service from "@/services/service";
-import uploadCard from "@/utils/uploadCard";
-import UploadImage from "@/pages/common/UploadImage";
 
 const EditCard = () => {
+  const history = useHistory();
   const { id } = useParams();
-
-  const [file, setFile] = useState();
+  const fileInput = useRef(null);
+  const [changeFile, setChangeFile] = useState(false);
   const [fileName, setFileName] = useState("");
   const [front, setFront] = useState("");
   const [back, setBack] = useState("");
@@ -24,7 +23,47 @@ const EditCard = () => {
   }, []);
 
   const putCard = async () => {
-    await uploadCard(file, front, back, id, "put");
+    const file = fileInput.current.files[0];
+    if (file) {
+      // when file is uploaded
+      const image_extension = file.type.split("/")[1];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const image = String(reader.result).split(",")[1];
+        await Service.putCard({
+          front,
+          back,
+          image,
+          image_extension,
+          file_name: file.name,
+          id,
+          changeFile,
+        });
+      };
+    } else {
+      await Service.putCard({
+        front,
+        back,
+        id,
+        changeFile,
+      });
+    }
+
+    window.setTimeout(() => {
+      history.push("/");
+    }, 300);
+  };
+
+  const removeFile = () => {
+    fileInput.current.value = "";
+    setFileName("");
+    setChangeFile(true);
+  };
+
+  const onChangeFile = (e) => {
+    setFileName(e.target.files[0].name);
+    setChangeFile(true);
   };
 
   return (
@@ -33,12 +72,21 @@ const EditCard = () => {
       <div>{id}</div>
       <input value={front} onChange={(e) => setFront(e.target.value)} />
       <input value={back} onChange={(e) => setBack(e.target.value)} />
-      <UploadImage
-        fileName={fileName}
-        setFile={setFile}
-        setFileName={setFileName}
-        submitCard={putCard}
+      <input
+        type="file"
+        ref={fileInput}
+        style={{ display: "none" }}
+        onChange={onChangeFile}
       />
+      <div onClick={() => fileInput.current.click()}>UPLOAD</div>
+      <div>{fileName}</div>
+      <div
+        onClick={removeFile}
+        style={{ display: fileName ? "block" : "none" }}
+      >
+        Remove file
+      </div>
+      <div onClick={putCard}>Submit</div>
     </div>
   );
 };

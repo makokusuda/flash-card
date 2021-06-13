@@ -15,6 +15,7 @@ interface PutInfo {
   image_extension?: string;
   file_name?: string;
   id: number;
+  changeFile: boolean;
 }
 
 axios.defaults.baseURL = "http://localhost:3000";
@@ -60,20 +61,24 @@ const postCard = async (info: PostInfo) => {
 };
 
 const putCard = async (info: PutInfo) => {
-  const { front, back, image, image_extension, file_name, id } = info;
+  const { back, changeFile, file_name, front, id, image, image_extension } =
+    info;
   try {
     if (image) {
+      // when file is uploaded
       await axios.put(`/api/cards/${id}`, {
-        front,
         back,
+        changeFile,
+        file_name,
+        front,
         image,
         image_extension,
-        file_name,
       });
     } else {
       await axios.put(`/api/cards/${id}`, {
-        front,
         back,
+        changeFile,
+        front,
       });
     }
   } catch (err) {

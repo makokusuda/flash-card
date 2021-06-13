@@ -1,16 +1,51 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-import uploadCard from "@/utils/uploadCard";
-import UploadImage from "@/pages/common/UploadImage";
+import Service from "@/services/service";
 
 const AddCard = () => {
+  const history = useHistory();
+  const fileInput = useRef(null);
   const [back, setBack] = useState("");
-  const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
   const [front, setFront] = useState("");
 
   const postCard = async () => {
-    await uploadCard(file, front, back, undefined, "post");
+    const file = fileInput.current.files[0];
+    if (file) {
+      // when file is uploaded
+      const image_extension = file.type.split("/")[1];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const image = String(reader.result).split(",")[1];
+        await Service.postCard({
+          front,
+          back,
+          image,
+          image_extension,
+          file_name: file.name,
+        });
+      };
+    } else {
+      await Service.postCard({
+        front,
+        back,
+      });
+    }
+
+    window.setTimeout(() => {
+      history.push("/");
+    }, 300);
+  };
+
+  const removeFile = () => {
+    fileInput.current.value = "";
+    setFileName("");
+  };
+
+  const onChangeFile = (e) => {
+    setFileName(e.target.files[0].name);
   };
 
   return (
@@ -27,12 +62,21 @@ const AddCard = () => {
             setBack(e.target.value);
           }}
         />
-        <UploadImage
-          fileName={fileName}
-          setFile={setFile}
-          setFileName={setFileName}
-          submitCard={postCard}
+        <input
+          type="file"
+          ref={fileInput}
+          style={{ display: "none" }}
+          onChange={onChangeFile}
         />
+        <div onClick={() => fileInput.current.click()}>UPLOAD</div>
+        <div>{fileName}</div>
+        <div
+          onClick={removeFile}
+          style={{ display: fileName ? "block" : "none" }}
+        >
+          Remove file
+        </div>
+        <div onClick={postCard}>Submit</div>
       </div>
     </div>
   );
