@@ -1,4 +1,7 @@
 import React from "react";
+import styled from "styled-components";
+
+import Colors from "@/utils/Colors";
 
 interface PageButton {
   currentPage: number;
@@ -39,24 +42,42 @@ const PageButton = (props: PageButton) => {
   };
 
   return (
-    <div>
-      <div onClick={() => updatePage("prev")}>prev</div>
-      <div>
-        {pageList[currentPageSet] &&
-          pageList[currentPageSet].map((item, index) => {
-            return (
-              <div
-                key={index}
-                style={{ color: item === currentPage ? "red" : "gray" }}
-              >
-                {item}
-              </div>
-            );
-          })}
-      </div>
-      <div onClick={() => updatePage("next")}>next</div>
-    </div>
+    <ButtonContainer>
+      <NumButton onClick={() => updatePage("prev")}>＜</NumButton>
+      {pageList[currentPageSet] &&
+        pageList[currentPageSet].map((item, index) => {
+          return (
+            <Number key={index} data-current={item === currentPage}>
+              {item}
+            </Number>
+          );
+        })}
+      <NumButton onClick={() => updatePage("next")}>＞</NumButton>
+    </ButtonContainer>
   );
 };
 
 export default PageButton;
+
+const ButtonContainer = styled.div`
+  text-align: center;
+`;
+
+const Number = styled.div`
+  padding: 5px 10px;
+  margin-right: 3px;
+  display: inline-block;
+
+  &[data-current="true"] {
+    background-color: ${Colors.PrimaryBlue};
+    color: ${Colors.White};
+    font: bold;
+  }
+`;
+
+const NumButton = styled.span`
+  padding: 5px 10px;
+  margin-right: 3px;
+  display: inline-block;
+  border: 1px solid ${Colors.Gray};
+`;

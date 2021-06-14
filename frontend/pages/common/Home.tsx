@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 import Card from "@/pages/cardList/Card";
 import { CardInfo } from "@/utils/interface";
@@ -23,7 +24,7 @@ const Home = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [updated, setUpdated] = useState(false);
 
-  const cardLimit = 5;
+  const cardLimit = 6;
   const pageLimit = 3;
 
   useEffect(() => {
@@ -43,14 +44,16 @@ const Home = () => {
 
   return (
     <div>
-      {fetching && <div>Loading...</div>}
-      {cards.map((card, index) => {
-        return (
-          <div key={index}>
-            <Card card={card} setUpdated={setUpdated} updated={updated} />
-          </div>
-        );
-      })}
+      <CardArea>
+        {fetching && <div>Loading...</div>}
+        {cards.map((card, index) => {
+          return (
+            <div key={index}>
+              <Card card={card} setUpdated={setUpdated} updated={updated} />
+            </div>
+          );
+        })}
+      </CardArea>
       <PageButton
         currentPage={currentPage}
         currentPageSet={currentPageSet}
@@ -64,3 +67,15 @@ const Home = () => {
 };
 
 export default Home;
+
+const CardArea = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  height: 666px;
+  margin: 0 auto;
+  @media screen and (max-width: 480px) {
+    height: auto;
+  }
+`;
