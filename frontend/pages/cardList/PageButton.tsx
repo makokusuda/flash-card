@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Colors from "@/utils/Colors";
+
 interface PageButton {
   currentPage: number;
   currentPageSet: number;
@@ -45,9 +47,9 @@ const PageButton = (props: PageButton) => {
       {pageList[currentPageSet] &&
         pageList[currentPageSet].map((item, index) => {
           return (
-            <NumButton key={index} data-current={item === currentPage}>
+            <Number key={index} data-current={item === currentPage}>
               {item}
-            </NumButton>
+            </Number>
           );
         })}
       <NumButton onClick={() => updatePage("next")}>＞</NumButton>
@@ -61,17 +63,21 @@ const ButtonContainer = styled.div`
   text-align: center;
 `;
 
+const Number = styled.div`
+  padding: 5px 10px;
+  margin-right: 3px;
+  display: inline-block;
+
+  &[data-current="true"] {
+    background-color: ${Colors.PrimaryBlue};
+    color: ${Colors.White};
+    font: bold;
+  }
+`;
+
 const NumButton = styled.span`
   padding: 5px 10px;
   margin-right: 3px;
   display: inline-block;
-  border: 1px solid #ddd;
-  color: #444;
-
-  &[data-current="true"] {
-    background-color: #6675df;
-    color: #fff;
-    border: 1px solid #6675df;
-    font: bold;
-  }
+  border: 1px solid ${Colors.Gray};
 `;

@@ -24,7 +24,7 @@ const Home = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [updated, setUpdated] = useState(false);
 
-  const cardLimit = 5;
+  const cardLimit = 6;
   const pageLimit = 3;
 
   useEffect(() => {
@@ -71,6 +71,11 @@ export default Home;
 const CardArea = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   width: 90%;
+  height: 666px;
   margin: 0 auto;
+  @media screen and (max-width: 480px) {
+    height: auto;
+  }
 `;

@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import Colors from "@/utils/Colors";
+
 const Menu = () => {
   return (
     <MenuContainer>
@@ -19,9 +21,12 @@ export default Menu;
 
 const MenuContainer = styled.div`
   display: flex;
+  align-items: center;
   height: 30px;
+  background-color: ${Colors.BackGroundBlue};
 `;
 
 const Content = styled.div`
   margin: 0 20px;
+  font-size: 20px;
 `;
